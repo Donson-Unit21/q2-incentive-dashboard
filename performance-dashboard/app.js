@@ -1,4 +1,17 @@
-const payload = window.PERFORMANCE_DATA;
+function decodePerformancePayload(data) {
+  if (!data?.encoded) return data;
+  const decodeTable = (rows = [], dictionaries = []) => rows.map(row => row.map((value, index) => {
+    const dictionary = dictionaries[index];
+    return dictionary ? dictionary[value] : value;
+  }));
+  return {
+    ...data,
+    records: decodeTable(data.records, data.recordDictionaries),
+    relations: decodeTable(data.relations, data.relationDictionaries),
+    selfOperating: decodeTable(data.selfOperating, data.selfOperatingDictionaries)
+  };
+}
+const payload = decodePerformancePayload(window.PERFORMANCE_DATA);
 const meta = payload.meta;
 const cols = Object.fromEntries(meta.columns.map((name, i) => [name, i]));
 const selfCols = Object.fromEntries(meta.selfColumns.map((name, i) => [name, i]));
@@ -136,6 +149,7 @@ let targetRenderRows = [];
 let lostRows = [];
 let lostElapsedDays = 0;
 const pageSize = 50;
+const maxUploadHistoryItems = 8;
 let activePanelKey = "dashboard";
 const renderedPanels = new Set();
 const XLSX_CDN = "https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js";
@@ -347,8 +361,8 @@ function compactUploadHistory(items = []) {
     return true;
   });
 }
-function uploadHistory() { return compactUploadHistory(JSON.parse(localStorage.getItem(uploadHistoryKey) || "[]")); }
-function setUploadHistory(v) { localStorage.setItem(uploadHistoryKey, JSON.stringify(v)); }
+function uploadHistory() { return compactUploadHistory(JSON.parse(localStorage.getItem(uploadHistoryKey) || "[]")).slice(0, maxUploadHistoryItems); }
+function setUploadHistory(v) { localStorage.setItem(uploadHistoryKey, JSON.stringify(compactUploadHistory(v).slice(0, maxUploadHistoryItems))); }
 function cloudStatus(message, tone = "") {
   const el = $("cloudStatus");
   if (!el) return;
@@ -361,13 +375,13 @@ function uploadFingerprint(item) {
   return [item.fileName || "", item.rowCount || 0, (item.rows || []).length, first.join("|"), last.join("|")].join("::");
 }
 function mergeUploadHistory(local, cloud) {
-  return compactUploadHistory([...(cloud || []), ...(local || [])]).slice(0, 80);
+  return compactUploadHistory([...(cloud || []), ...(local || [])]).slice(0, maxUploadHistoryItems);
 }
 function cloudSnapshot() {
   return {
     version: 1,
     updatedAt: new Date().toLocaleString("zh-CN", { hour12: false }),
-    uploads: uploadHistory(),
+    uploads: uploadHistory().slice(0, maxUploadHistoryItems),
     newLabels: newLabels(),
     newProjects: newProjects(),
     targets: getTargets()
@@ -3214,7 +3228,7 @@ function init() {
     }
     e.target.value = "";
   };
-  const defaultPanel = isAdmin() ? "annualOverview" : currentUser?.role === "person" ? "myDashboard" : "dashboard";
+  const defaultPanel = currentUser?.role === "person" ? "myDashboard" : "dashboard";
   activePanelKey = defaultPanel;
   updateFilteredRows();
   invalidatePanels();
@@ -3227,8 +3241,8 @@ async function bootstrap() {
     showLogin();
     return;
   }
-  await loadCloudData();
   applyAuth(user);
   init();
+  setTimeout(() => loadCloudData({ refresh: true }), 1200);
 }
 bootstrap();
