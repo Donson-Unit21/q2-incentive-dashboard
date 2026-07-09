@@ -3002,14 +3002,18 @@ function renderUploadHistory() {
     <td>${esc(item.uploadedAt)}</td>
     <td>${esc(item.fileName)}</td>
     <td class="num">${fmtMoney(item.rowCount)}</td>
-    <td class="num">${fmtMoney(item.newOpportunities.length)}</td>
-    <td><button class="downloadUploadItem" data-index="${index}">下载</button></td>
+    <td class="num">${fmtMoney((item.newOpportunities || []).length)}</td>
+    <td>
+      <button class="downloadUploadItem" data-index="${index}">下载</button>
+      <button class="replaceUploadItem" data-index="${index}">替换</button>
+    </td>
   </tr>`).join("");
   $("uploadHistoryTable").innerHTML = `<thead><tr><th>上传时间</th><th>文件名</th><th class="num">行数</th><th class="num">新增商机数</th><th>操作</th></tr></thead><tbody>${body || `<tr><td colspan="5" class="empty">暂无上传历史</td></tr>`}</tbody>`;
   document.querySelectorAll(".downloadUploadItem").forEach(btn => btn.onclick = () => {
     const item = uploadHistory()[Number(btn.dataset.index)];
     downloadCsv(item.columns || [], item.rows || [], `上传历史-${item.fileName || item.uploadedAt}.csv`);
   });
+  document.querySelectorAll(".replaceUploadItem").forEach(btn => btn.onclick = () => chooseReplacementUpload(Number(btn.dataset.index)));
 }
 
 function downloadCsv(headers, bodyRows, filename) {
@@ -3020,6 +3024,60 @@ function downloadCsv(headers, bodyRows, filename) {
   a.download = filename;
   a.click();
   URL.revokeObjectURL(a.href);
+}
+
+function refreshAfterUploadChange() {
+  rebuildAllRows();
+  rows = scopedRowsFor(currentUser);
+  const max = dataDateMax(allRows);
+  setDashboardMonthRange(max);
+  $("dataMeta").textContent = `数据范围 ${dataDateMin(allRows)} 至 ${max}｜生成于 ${meta.generatedAt}｜当前权限 ${currentUser.scopeLabel}｜可见 ${fmtMoney(rows.length)} 行`;
+  applyFilters();
+}
+
+async function uploadItemFromFile(file) {
+  await loadXlsx();
+  const buf = await file.arrayBuffer();
+  const wb = XLSX.read(buf, { type: "array", cellDates: true });
+  const sheet = wb.Sheets[wb.SheetNames[0]];
+  const data = XLSX.utils.sheet_to_json(sheet, { defval: "" });
+  const columns = data.length ? Object.keys(data[0]) : [];
+  const bodyRows = data.map(row => columns.map(col => row[col]));
+  return {
+    uploadedAt: new Date().toLocaleString("zh-CN", { hour12: false }),
+    fileName: file.name,
+    rowCount: data.length,
+    newOpportunities: buildNewEntries(data),
+    columns,
+    rows: bodyRows
+  };
+}
+
+function chooseReplacementUpload(index) {
+  if (!isAdmin()) return;
+  const current = uploadHistory()[index];
+  if (!current) return;
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = ".xlsx,.xls,.csv";
+  input.onchange = async () => {
+    const file = input.files && input.files[0];
+    if (!file) return;
+    try {
+      const replacement = await uploadItemFromFile(file);
+      const history = uploadHistory()
+        .filter((item, itemIndex) => itemIndex !== index)
+        .filter(item => uploadHistoryIdentity(item) !== uploadHistoryIdentity(replacement));
+      history.unshift(replacement);
+      setUploadHistory(history.slice(0, 20));
+      refreshAfterUploadChange();
+      cloudStatus(`已用 ${file.name} 替换 ${current.fileName || "选中数据"}。`, "good");
+      autoPublishCloud(`Replace ${current.fileName || "upload"} with ${file.name}`);
+    } catch (err) {
+      cloudStatus(`替换失败：${err.message}`, "bad");
+    }
+  };
+  input.click();
 }
 function exportCsv() {
   const visibleCols = meta.columns.map((name, i) => ({ name, i })).filter(col => !["总消耗", "赠款消耗"].includes(col.name));
@@ -3143,37 +3201,17 @@ function init() {
     const file = e.target.files[0];
     if (!file) return;
     try {
-      await loadXlsx();
+      const nextUpload = await uploadItemFromFile(file);
+      const history = uploadHistory().filter(item => uploadHistoryIdentity(item) !== uploadHistoryIdentity(nextUpload));
+      history.unshift(nextUpload);
+      setUploadHistory(history.slice(0, 20));
+      refreshAfterUploadChange();
+      autoPublishCloud(`Upload ${file.name}`);
     } catch (err) {
-      cloudStatus("Excel 解析库加载失败，请检查网络后重试。", "bad");
+      cloudStatus(`上传失败：${err.message}`, "bad");
       e.target.value = "";
       return;
     }
-    const buf = await file.arrayBuffer();
-    const wb = XLSX.read(buf, { type: "array", cellDates: true });
-    const sheet = wb.Sheets[wb.SheetNames[0]];
-    const data = XLSX.utils.sheet_to_json(sheet, { defval: "" });
-    const columns = data.length ? Object.keys(data[0]) : [];
-    const bodyRows = data.map(row => columns.map(col => row[col]));
-    const newItems = buildNewEntries(data);
-    const nextUpload = {
-      uploadedAt: new Date().toLocaleString("zh-CN", { hour12: false }),
-      fileName: file.name,
-      rowCount: data.length,
-      newOpportunities: newItems,
-      columns,
-      rows: bodyRows
-    };
-    const history = uploadHistory().filter(item => uploadHistoryIdentity(item) !== uploadHistoryIdentity(nextUpload));
-    history.unshift(nextUpload);
-    setUploadHistory(history.slice(0, 20));
-    rebuildAllRows();
-    rows = scopedRowsFor(currentUser);
-    const max = dataDateMax(allRows);
-    setDashboardMonthRange(max);
-    $("dataMeta").textContent = `数据范围 ${dataDateMin(allRows)} 至 ${max}｜生成于 ${meta.generatedAt}｜当前权限 ${currentUser.scopeLabel}｜可见 ${fmtMoney(rows.length)} 行`;
-    applyFilters();
-    autoPublishCloud(`Upload ${file.name}`);
     e.target.value = "";
   };
   const defaultPanel = isAdmin() ? "annualOverview" : currentUser?.role === "person" ? "myDashboard" : "dashboard";
