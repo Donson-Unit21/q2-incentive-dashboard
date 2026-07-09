@@ -538,80 +538,95 @@ button { cursor: pointer; font-weight: 700; }
 .annualIndustryCard {
   overflow: auto;
 }
+.annualIndustryChartCard {
+  min-height: 360px;
+}
+.annualIndustryChartCard canvas {
+  min-height: 300px;
+}
 .annualIndustryCard h4 {
   position: sticky;
   left: 0;
 }
-.annualIndustryCard #annualIndustryTopList {
+.annualIndustryRankMatrix {
   min-width: 980px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
-  gap: 12px;
+  gap: 8px;
 }
-.annualIndustryMonth {
-  padding: 12px;
-  border: 1px solid #e5edf8;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #fff 0%, #f8fbff 100%);
-}
-.annualIndustryMonth h5 {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 10px;
-  margin: 0 0 10px;
-  color: #17213a;
-  font-size: 15px;
-}
-.annualIndustryMonth h5 span {
-  color: var(--muted);
-  font-size: 12px;
-}
-.annualIndustryRow {
+.annualIndustryRankRow {
   display: grid;
-  grid-template-columns: 26px minmax(96px, 1fr) minmax(110px, 1.2fr) 72px 82px;
   gap: 8px;
   align-items: center;
-  padding: 6px 0;
-  border-top: 1px solid #eef2f7;
 }
-.annualIndustryRow:first-of-type {
-  border-top: 0;
-}
-.rankBadge {
-  width: 22px;
-  height: 22px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 999px;
-  background: #eef5ff;
-  color: var(--blue);
+.annualIndustryRankHead span {
+  color: var(--muted);
   font-size: 12px;
   font-weight: 900;
+  text-align: center;
 }
-.annualIndustryRow strong {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.annualIndustryRankHead span:first-child {
+  text-align: left;
+}
+.annualIndustryRankRow strong {
+  min-height: 54px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   color: #1d2a44;
   font-size: 13px;
+  font-weight: 900;
+  overflow: hidden;
 }
-.annualIndustryRow b,
-.annualIndustryRow em {
+.annualIndustryRankRow strong i {
+  width: 10px;
+  height: 10px;
+  flex: 0 0 auto;
+  border-radius: 999px;
+}
+.annualIndustryRankCell {
+  min-height: 54px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+  padding: 7px 8px;
+  border: 1px solid #e5edf8;
+  border-radius: 8px;
+  background: #f8fbff;
+  text-align: center;
+}
+.annualIndustryRankCell b {
   color: #17213a;
+  font-size: 15px;
+  font-weight: 900;
+}
+.annualIndustryRankCell em {
+  color: var(--muted);
   font-size: 12px;
   font-style: normal;
-  font-weight: 900;
-  text-align: right;
 }
-.annualIndustryRow em {
-  color: var(--blue);
-  display: inline-flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 5px;
-  white-space: nowrap;
+.annualIndustryRankCell i {
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 900;
+}
+.annualIndustryRankCell.up {
+  border-color: rgba(22, 163, 74, .24);
+  background: rgba(22, 163, 74, .08);
+}
+.annualIndustryRankCell.up i {
+  color: #15803d;
+}
+.annualIndustryRankCell.down {
+  border-color: rgba(239, 45, 53, .22);
+  background: rgba(239, 45, 53, .07);
+}
+.annualIndustryRankCell.down i {
+  color: #dc2626;
+}
+.annualIndustryRankCell.flat i,
+.annualIndustryRankCell.outsideTop {
+  color: var(--muted);
 }
 .shareTrend {
   width: 18px;

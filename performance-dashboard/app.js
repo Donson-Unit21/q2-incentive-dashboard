@@ -1162,45 +1162,92 @@ function renderAnnualSalesCompletionHeatmap(source, months, salesNames) {
   node.innerHTML = `<div class="annualLeaderLine">不参与排名：詹紫微、吕帅印、程鹏、魏筱宇；1-3月于泽不参与排名｜月度完成率最高：${esc(leaderText)}</div><div class="annualHeatmap">${header}${body}</div>`;
 }
 function renderAnnualIndustryTopList(source, months) {
-  const node = $("annualIndustryTopList");
-  if (!node) return;
-  const monthlyIndustryShares = Object.fromEntries(months.map(month => {
+  const rankNode = $("annualIndustryRankMatrix");
+  if (!rankNode) return;
+  const labels = months.map(monthLabel);
+  const colors = ["#2f6bff", "#16a34a", "#f59e0b", "#ef2d35", "#5b6ee1", "#0f9f9a", "#ec4899", "#64748b", "#8b5cf6", "#14b8a6", "#94a3b8"];
+  const topIndustries = group(source, r => r[cols["一级行业"]] || "未填写")
+    .sort((a, b) => b.value - a.value)
+    .slice(0, 10)
+    .map(item => item.label);
+  const monthlyStats = Object.fromEntries(months.map(month => {
     const monthRows = source.filter(r => r[cols.monthKey] === month);
     const total = sum(monthRows);
-    const shares = {};
-    group(monthRows, r => r[cols["一级行业"]] || "未填写").forEach(item => {
-      shares[item.label] = total ? item.value / total * 100 : 0;
-    });
-    return [month, shares];
+    const ranked = group(monthRows, r => r[cols["一级行业"]] || "未填写").sort((a, b) => b.value - a.value);
+    const byIndustry = Object.fromEntries(ranked.map((item, index) => [item.label, {
+      rank: index + 1,
+      value: item.value,
+      share: total ? item.value / total * 100 : 0
+    }]));
+    const trackedValue = topIndustries.reduce((acc, name) => acc + (byIndustry[name]?.value || 0), 0);
+    return [month, { total, ranked, byIndustry, other: Math.max(0, total - trackedValue) }];
   }));
-  node.innerHTML = months.map((month, monthIndex) => {
-    const monthRows = source.filter(r => r[cols.monthKey] === month);
-    const total = sum(monthRows);
-    const items = group(monthRows, r => r[cols["一级行业"]] || "未填写")
-      .sort((a, b) => b.value - a.value)
-      .slice(0, 10);
-    const max = Math.max(1, ...items.map(item => item.value));
-    const rowsHtml = items.map((item, index) => {
-      const share = total ? item.value / total * 100 : 0;
-      const prevMonth = months[monthIndex - 1];
-      const prevShare = prevMonth ? (monthlyIndustryShares[prevMonth]?.[item.label] || 0) : null;
-      const delta = prevShare == null ? 0 : share - prevShare;
-      const trendCls = prevShare == null || Math.abs(delta) < .05 ? "flat" : delta > 0 ? "up" : "down";
-      const trendIcon = trendCls === "up" ? "↑" : trendCls === "down" ? "↓" : "→";
-      const trendText = prevShare == null ? "首月" : `${delta > 0 ? "+" : ""}${pctFmt.format(delta)}pct`;
-      return `<div class="annualIndustryRow">
-        <span class="rankBadge">${index + 1}</span>
-        <strong>${esc(item.label)}</strong>
-        <div class="miniBar"><i style="width:${Math.max(2, item.value / max * 100)}%"></i></div>
-        <b>${fmtWan(item.value)}w</b>
-        <em>${pctFmt.format(share)}%<span class="shareTrend ${trendCls}" title="较上月占比 ${esc(trendText)}">${trendIcon}</span></em>
-      </div>`;
+  const columns = `156px repeat(${months.length}, minmax(112px, 1fr))`;
+  const head = `<div class="annualIndustryRankRow annualIndustryRankHead" style="grid-template-columns:${columns}"><span>行业</span>${months.map(month => `<span>${esc(monthLabel(month))}</span>`).join("")}</div>`;
+  const rowsHtml = topIndustries.map((industry, industryIndex) => {
+    const cells = months.map((month, monthIndex) => {
+      const stat = monthlyStats[month].byIndustry[industry] || { rank: "-", value: 0, share: 0 };
+      const prev = monthIndex > 0 ? monthlyStats[months[monthIndex - 1]].byIndustry[industry] : null;
+      const delta = prev && Number.isFinite(prev.rank) && Number.isFinite(stat.rank) ? prev.rank - stat.rank : 0;
+      const trendCls = !prev || !Number.isFinite(stat.rank) || !delta ? "flat" : delta > 0 ? "up" : "down";
+      const trendText = !prev ? "首月" : !Number.isFinite(stat.rank) ? "未上榜" : delta ? `${delta > 0 ? "升" : "降"}${Math.abs(delta)}` : "持平";
+      return `<span class="annualIndustryRankCell ${trendCls}${Number(stat.rank) > 10 ? " outsideTop" : ""}">
+        <b>#${esc(stat.rank)}</b>
+        <em>${pctFmt.format(stat.share)}%｜${fmtWan(stat.value)}w</em>
+        <i>${esc(trendText)}</i>
+      </span>`;
     }).join("");
-    return `<article class="annualIndustryMonth">
-      <h5>${esc(monthLabel(month))}<span>总消耗 ${fmtWan(total)}w</span></h5>
-      ${rowsHtml || `<p>暂无数据</p>`}
-    </article>`;
+    return `<div class="annualIndustryRankRow" style="grid-template-columns:${columns}">
+      <strong><i style="background:${colors[industryIndex % colors.length]}"></i>${esc(industry)}</strong>${cells}
+    </div>`;
   }).join("");
+  rankNode.innerHTML = `<div class="annualIndustryRankMatrix">${head}${rowsHtml}</div>`;
+
+  const shareDatasets = [
+    ...topIndustries.map((industry, index) => ({
+      label: industry,
+      data: months.map(month => {
+        const stat = monthlyStats[month].byIndustry[industry];
+        return stat ? stat.share : 0;
+      }),
+      rawValues: months.map(month => monthlyStats[month].byIndustry[industry]?.value || 0),
+      backgroundColor: colors[index % colors.length],
+      stack: "share"
+    })),
+    {
+      label: "其它",
+      data: months.map(month => monthlyStats[month].total ? monthlyStats[month].other / monthlyStats[month].total * 100 : 0),
+      rawValues: months.map(month => monthlyStats[month].other),
+      backgroundColor: colors[10],
+      stack: "share"
+    }
+  ];
+  chart("annualIndustryShareChart", "bar", labels, shareDatasets, {
+    scales: {
+      x: { stacked: true, grid: { color: palette.grid }, ticks: { color: palette.tick } },
+      y: { stacked: true, beginAtZero: true, max: 100, grid: { color: palette.grid }, ticks: { color: palette.tick, callback: v => `${v}%` } }
+    },
+    plugins: {
+      legend: { display: true, position: "bottom" },
+      tooltip: { callbacks: { label(ctx) {
+        const raw = ctx.dataset.rawValues?.[ctx.dataIndex] || 0;
+        return `${ctx.dataset.label}: ${pctFmt.format(ctx.parsed.y)}%｜${fmtWan(raw)}w`;
+      } } }
+    }
+  });
+
+  chart("annualIndustrySpendChart", "line", labels, topIndustries.map((industry, index) => ({
+    label: industry,
+    data: months.map(month => monthlyStats[month].byIndustry[industry]?.value || 0),
+    borderColor: colors[index % colors.length],
+    backgroundColor: colors[index % colors.length],
+    tension: .25
+  })), {
+    plugins: {
+      legend: { display: true, position: "bottom" },
+      tooltip: { callbacks: { label(ctx) { return `${ctx.dataset.label}: ${fmtWan(ctx.parsed.y)}w`; } } }
+    }
+  });
 }
 function renderAnnualOverview() {
   if (!isAdmin() || !$("annualOverview")) return;
