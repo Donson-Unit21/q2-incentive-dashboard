@@ -8,13 +8,15 @@ function decodePerformancePayload(data) {
     ...data,
     records: decodeTable(data.records, data.recordDictionaries),
     relations: decodeTable(data.relations, data.relationDictionaries),
-    selfOperating: decodeTable(data.selfOperating, data.selfOperatingDictionaries)
+    selfOperating: decodeTable(data.selfOperating, data.selfOperatingDictionaries),
+    selfPortOperating: decodeTable(data.selfPortOperating, data.selfPortDictionaries)
   };
 }
 const payload = decodePerformancePayload(window.PERFORMANCE_DATA);
 const meta = payload.meta;
 const cols = Object.fromEntries(meta.columns.map((name, i) => [name, i]));
 const selfCols = Object.fromEntries(meta.selfColumns.map((name, i) => [name, i]));
+const selfPortCols = Object.fromEntries((meta.selfPortColumns || []).map((name, i) => [name, i]));
 const moneyFmt = new Intl.NumberFormat("zh-CN", { maximumFractionDigits: 0 });
 const wanFmt = new Intl.NumberFormat("zh-CN", { maximumFractionDigits: 1 });
 const pctFmt = new Intl.NumberFormat("zh-CN", { maximumFractionDigits: 1 });
@@ -981,13 +983,33 @@ function monthLabel(month) {
 function sumByMonth(list, month, filterFn = () => true) {
   return sum(list.filter(r => r[cols.monthKey] === month && filterFn(r)));
 }
-function selfSpendByRows(list) {
-  return sum(list, cols["自运营消耗"]);
+function normalizeSelfPortName(value = "") {
+  const text = `${value || ""}`;
+  if (text.includes("海南")) return "海南端口";
+  if (text.includes("深圳")) return "深圳端口";
+  return text || "未知端口";
 }
-function selfShareStats(list, months, filterFn = () => true) {
+function selfShareStats(list, months, portName = "") {
+  if (payload.selfPortOperating?.length && selfPortCols["月份"] != null) {
+    return months.map(month => {
+      const label = monthM(month);
+      const rows = payload.selfPortOperating.filter(row => {
+        if (row[selfPortCols["月份"]] !== label) return false;
+        return !portName || normalizeSelfPortName(row[selfPortCols["端口"]]) === portName;
+      });
+      const selfSpend = rows.reduce((acc, row) => acc + Number(row[selfPortCols["自运营"]] || 0), 0);
+      const baseSpend = rows.reduce((acc, row) => acc + Number(row[selfPortCols["非赠款消耗"]] || 0), 0);
+      return {
+        month,
+        selfSpend,
+        baseSpend,
+        share: baseSpend ? Math.min(100, selfSpend / baseSpend * 100) : 0
+      };
+    });
+  }
   return months.map(month => {
-    const rows = list.filter(r => r[cols.monthKey] === month && filterFn(r));
-    const selfSpend = selfSpendByRows(rows);
+    const rows = list.filter(r => r[cols.monthKey] === month && (!portName || normalizedPortRegion(r) === portName));
+    const selfSpend = 0;
     const baseSpend = sum(rows);
     return {
       month,
@@ -1458,7 +1480,7 @@ function renderAnnualOverview() {
     { name: "海南端口", color: palette.green, fill: "rgba(22,163,74,.12)" },
     { name: "深圳端口", color: palette.blue, fill: "rgba(37,99,235,.12)" }
   ].map(port => {
-    const stats = selfShareStats(source, months, row => normalizedPortRegion(row) === port.name);
+    const stats = selfShareStats(source, months, port.name);
     return {
       label: port.name,
       data: stats.map(item => item.share),
