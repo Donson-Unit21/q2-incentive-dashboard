@@ -39,7 +39,7 @@ body.not-admin .restrictedOnly,
 body.admin-user .userOnly {
   display: none !important;
 }
-body.person-user .sidebar > .dashboardNavGroup:not(.userOnly) {
+body.person-user .sidebar > .nav[data-panel="dashboard"] {
   display: none !important;
 }
 body.person-user.my-dashboard-active .rechargeDashboardBlock {
@@ -113,54 +113,6 @@ body.team-user .userChangeView {
   text-decoration: none;
   cursor: pointer;
 }
-.navToggle {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-}
-.navGroup .nav { margin: 0; }
-.navChevron {
-  color: rgba(255,255,255,.64);
-  font-size: 16px;
-  line-height: 1;
-  transition: transform .18s ease;
-}
-.navGroup.open .navChevron { transform: rotate(180deg); }
-.navSubmenu {
-  display: none;
-  margin: 6px 0 10px;
-  padding: 4px 0 4px 16px;
-  border-left: 1px solid rgba(255,255,255,.18);
-}
-.navGroup.open .navSubmenu { display: grid; gap: 4px; }
-.navPeriodTitle {
-  margin: 8px 0 4px;
-  color: rgba(255,255,255,.48);
-  font-size: 12px;
-  font-weight: 800;
-}
-.navSubitem {
-  width: 100%;
-  padding: 9px 12px;
-  border: 1px solid transparent;
-  border-radius: 8px;
-  background: transparent;
-  color: rgba(255,255,255,.72);
-  text-align: left;
-  font-weight: 700;
-  cursor: pointer;
-}
-.navSubitem:hover {
-  background: rgba(255,255,255,.10);
-  color: #fff;
-}
-.navSubitem.active {
-  background: rgba(255,255,255,.16);
-  color: #fff;
-  border-color: rgba(255,255,255,.20);
-  box-shadow: inset 3px 0 0 var(--blue);
-}
 .nav.active, .nav:hover {
   background: rgba(255,255,255,.12);
   color: #fff;
@@ -209,11 +161,24 @@ p { margin: 6px 0 0; color: var(--muted); }
   padding: 14px;
   background: rgba(255,255,255,.96);
 }
+body.group-mode-active .filters {
+  grid-template-columns: repeat(6, minmax(140px, 1fr)) 100px 100px;
+}
+body.daily-filter-active .filters {
+  grid-template-columns: minmax(180px, 260px) 100px 100px;
+}
+body:not(.group-mode-active) .groupModeFilter {
+  display: none;
+}
+body.daily-filter-active .endDateFilterLabel,
+body.daily-filter-active .periodFilterLabel,
+body.daily-filter-active .bizFilterLabel,
+body.daily-filter-active .typeFilterLabel,
+body.daily-filter-active .groupModeFilter {
+  display: none;
+}
 body.annual-overview-active .topbar {
   padding-bottom: 28px;
-}
-body.annual-overview-active .filters {
-  display: none;
 }
 body.targets-active .topbar {
   display: none;
@@ -229,6 +194,83 @@ input, select, button {
   font: inherit;
 }
 button { cursor: pointer; font-weight: 700; }
+.periodFilterLabel {
+  position: relative;
+}
+.periodMulti {
+  position: relative;
+}
+.periodMultiButton {
+  width: 100%;
+  padding: 7px 34px 7px 10px;
+  background: #fff;
+  color: var(--ink);
+  text-align: left;
+  position: relative;
+}
+.periodMultiButton::after {
+  content: "";
+  position: absolute;
+  right: 13px;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid #14213d;
+  border-bottom: 2px solid #14213d;
+  transform: translateY(-65%) rotate(45deg);
+}
+.periodMulti.open .periodMultiButton::after {
+  transform: translateY(-35%) rotate(225deg);
+}
+.periodMultiMenu {
+  display: none;
+  position: absolute;
+  z-index: 30;
+  top: calc(100% + 6px);
+  left: 0;
+  width: 280px;
+  max-width: min(82vw, 320px);
+  padding: 10px;
+  border: 1px solid #d6deec;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 16px 34px rgba(17,24,39,.18);
+}
+.periodMulti.open .periodMultiMenu {
+  display: grid;
+  gap: 8px;
+}
+.periodGroupTitle {
+  margin: 2px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+}
+.periodChoiceGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+.periodChoice {
+  min-height: 34px;
+  padding: 0 8px;
+  border-color: #d6deec;
+  background: #f8fafc;
+  color: #1d2a44;
+}
+.periodChoice.active {
+  border-color: var(--blue);
+  background: #edf4ff;
+  color: var(--blue);
+  box-shadow: inset 3px 0 0 var(--blue);
+}
+.periodChoice:disabled {
+  cursor: not-allowed;
+  opacity: .42;
+}
+.periodChoice.custom {
+  grid-column: 1 / -1;
+}
 #applyFilters, #exportCsv, #saveNewLabels, #saveNewLabelsInChanges, #downloadBaseHistory, #downloadUploadedHistory, #saveTarget { background: var(--blue); color: #fff; border: 0; }
 .panel { display: none; }
 .panel.active { display: block; }

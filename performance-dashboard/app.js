@@ -44,89 +44,7 @@ const users = [
   { account: "于泽", aliases: ["admin"], name: "于泽", password: "yz0", role: "person", person: "于泽", scopeLabel: "于泽本人数据" }
 ];
 const palette = { blue: "#2f6bff", green: "#16a34a", amber: "#f59e0b", red: "#ef2d35", violet: "#5b6ee1", grid: "rgba(124,139,164,.2)", tick: "#748098" };
-const defaultTargetRows = [
-  {month:"2026-01",level:"business",name:"本地推",biz:"",spend:15300000,fresh:0},
-  {month:"2026-01",level:"business",name:"代充值",biz:"",spend:13000000,fresh:28},
-  {month:"2026-01",level:"business",name:"代运营",biz:"",spend:2300000,fresh:0},
-  {month:"2026-01",level:"team",name:"销售一组",biz:"代充值",spend:8000000,fresh:14},
-  {month:"2026-01",level:"team",name:"销售二组",biz:"代充值",spend:5000000,fresh:14},
-  {month:"2026-01",level:"person",name:"程鹏",biz:"代充值",spend:4400000,fresh:2},
-  {month:"2026-01",level:"person",name:"陈佳",biz:"代充值",spend:1800000,fresh:4},
-  {month:"2026-01",level:"person",name:"樊俊俊",biz:"代充值",spend:700000,fresh:4},
-  {month:"2026-01",level:"person",name:"黄文强",biz:"代充值",spend:1100000,fresh:4},
-  {month:"2026-01",level:"person",name:"吕帅印",biz:"代充值",spend:1300000,fresh:2},
-  {month:"2026-01",level:"person",name:"尤欢",biz:"代充值",spend:1250000,fresh:6},
-  {month:"2026-01",level:"person",name:"陈梦燕",biz:"代充值",spend:2300000,fresh:4},
-  {month:"2026-01",level:"person",name:"胡金正",biz:"代充值",spend:150000,fresh:2},
-  {month:"2026-02",level:"business",name:"本地推",biz:"",spend:10700000,fresh:0},
-  {month:"2026-02",level:"business",name:"代充值",biz:"",spend:10050000,fresh:18},
-  {month:"2026-02",level:"business",name:"代运营",biz:"",spend:650000,fresh:0},
-  {month:"2026-02",level:"team",name:"销售一组",biz:"代充值",spend:5500000,fresh:10},
-  {month:"2026-02",level:"team",name:"销售二组",biz:"代充值",spend:4550000,fresh:8},
-  {month:"2026-02",level:"person",name:"程鹏",biz:"代充值",spend:3000000,fresh:1},
-  {month:"2026-02",level:"person",name:"陈佳",biz:"代充值",spend:1000000,fresh:3},
-  {month:"2026-02",level:"person",name:"樊俊俊",biz:"代充值",spend:500000,fresh:3},
-  {month:"2026-02",level:"person",name:"黄文强",biz:"代充值",spend:1000000,fresh:3},
-  {month:"2026-02",level:"person",name:"吕帅印",biz:"代充值",spend:50000,fresh:2},
-  {month:"2026-02",level:"person",name:"尤欢",biz:"代充值",spend:1300000,fresh:2},
-  {month:"2026-02",level:"person",name:"陈梦燕",biz:"代充值",spend:2300000,fresh:2},
-  {month:"2026-02",level:"person",name:"胡金正",biz:"代充值",spend:900000,fresh:2},
-  {month:"2026-03",level:"business",name:"本地推",biz:"",spend:22000000,fresh:0},
-  {month:"2026-03",level:"business",name:"代充值",biz:"",spend:20000000,fresh:32},
-  {month:"2026-03",level:"business",name:"代运营",biz:"",spend:2000000,fresh:0},
-  {month:"2026-03",level:"team",name:"销售一组",biz:"代充值",spend:12000000,fresh:16},
-  {month:"2026-03",level:"team",name:"销售二组",biz:"代充值",spend:8000000,fresh:16},
-  {month:"2026-03",level:"person",name:"程鹏",biz:"代充值",spend:4000000,fresh:4},
-  {month:"2026-03",level:"person",name:"陈佳",biz:"代充值",spend:4500000,fresh:4},
-  {month:"2026-03",level:"person",name:"樊俊俊",biz:"代充值",spend:1200000,fresh:4},
-  {month:"2026-03",level:"person",name:"黄文强",biz:"代充值",spend:2300000,fresh:4},
-  {month:"2026-03",level:"person",name:"吕帅印",biz:"代充值",spend:1200000,fresh:4},
-  {month:"2026-03",level:"person",name:"尤欢",biz:"代充值",spend:2700000,fresh:4},
-  {month:"2026-03",level:"person",name:"陈梦燕",biz:"代充值",spend:2900000,fresh:4},
-  {month:"2026-03",level:"person",name:"胡金正",biz:"代充值",spend:1200000,fresh:4},
-  {month:"2026-04",level:"business",name:"本地推",biz:"",spend:33900000,fresh:0},
-  {month:"2026-04",level:"business",name:"代充值",biz:"",spend:31500000,fresh:31},
-  {month:"2026-04",level:"business",name:"代运营",biz:"",spend:2400000,fresh:0},
-  {month:"2026-04",level:"team",name:"销售一组",biz:"代充值",spend:16000000,fresh:16},
-  {month:"2026-04",level:"team",name:"销售二组",biz:"代充值",spend:15500000,fresh:15},
-  {month:"2026-04",level:"person",name:"程鹏",biz:"代充值",spend:4000000,fresh:4},
-  {month:"2026-04",level:"person",name:"陈佳",biz:"代充值",spend:5800000,fresh:4},
-  {month:"2026-04",level:"person",name:"樊俊俊",biz:"代充值",spend:1200000,fresh:4},
-  {month:"2026-04",level:"person",name:"黄文强",biz:"代充值",spend:5000000,fresh:4},
-  {month:"2026-04",level:"person",name:"吕帅印",biz:"代充值",spend:0,fresh:0},
-  {month:"2026-04",level:"person",name:"尤欢",biz:"代充值",spend:9500000,fresh:5},
-  {month:"2026-04",level:"person",name:"陈梦燕",biz:"代充值",spend:4500000,fresh:5},
-  {month:"2026-04",level:"person",name:"胡金正",biz:"代充值",spend:1500000,fresh:5},
-  {month:"2026-04",level:"person",name:"于泽",biz:"代充值",spend:500000,fresh:5},
-  {month:"2026-05",level:"business",name:"本地推",biz:"",spend:37100000,fresh:0},
-  {month:"2026-05",level:"business",name:"代充值",biz:"",spend:35100000,fresh:16},
-  {month:"2026-05",level:"business",name:"代运营",biz:"",spend:2000000,fresh:0},
-  {month:"2026-05",level:"team",name:"销售一组",biz:"代充值",spend:16000000,fresh:8},
-  {month:"2026-05",level:"team",name:"销售二组",biz:"代充值",spend:19100000,fresh:8},
-  {month:"2026-05",level:"person",name:"程鹏",biz:"代充值",spend:4000000,fresh:2},
-  {month:"2026-05",level:"person",name:"陈佳",biz:"代充值",spend:4000000,fresh:2},
-  {month:"2026-05",level:"person",name:"樊俊俊",biz:"代充值",spend:2000000,fresh:2},
-  {month:"2026-05",level:"person",name:"黄文强",biz:"代充值",spend:6000000,fresh:2},
-  {month:"2026-05",level:"person",name:"吕帅印",biz:"代充值",spend:1000000,fresh:2},
-  {month:"2026-05",level:"person",name:"尤欢",biz:"代充值",spend:9500000,fresh:2},
-  {month:"2026-05",level:"person",name:"陈梦燕",biz:"代充值",spend:6000000,fresh:2},
-  {month:"2026-05",level:"person",name:"胡金正",biz:"代充值",spend:2600000,fresh:2},
-  {month:"2026-05",level:"person",name:"于泽",biz:"代充值",spend:1900000,fresh:2},
-  {month:"2026-06",level:"business",name:"本地推",biz:"",spend:45400000,fresh:0},
-  {month:"2026-06",level:"business",name:"代充值",biz:"",spend:43000000,fresh:40},
-  {month:"2026-06",level:"business",name:"代运营",biz:"",spend:2400000,fresh:0},
-  {month:"2026-06",level:"team",name:"销售一组",biz:"代充值",spend:20000000,fresh:20},
-  {month:"2026-06",level:"team",name:"销售二组",biz:"本地推",spend:22000000,fresh:20},
-  {month:"2026-06",level:"person",name:"程鹏",biz:"本地推",spend:3000000,fresh:6},
-  {month:"2026-06",level:"person",name:"陈佳",biz:"本地推",spend:5000000,fresh:6},
-  {month:"2026-06",level:"person",name:"樊俊俊",biz:"本地推",spend:4000000,fresh:6},
-  {month:"2026-06",level:"person",name:"黄文强",biz:"本地推",spend:8000000,fresh:2},
-  {month:"2026-06",level:"person",name:"吕帅印",biz:"代充值",spend:2000000,fresh:5},
-  {month:"2026-06",level:"person",name:"尤欢",biz:"代充值",spend:7000000,fresh:5},
-  {month:"2026-06",level:"person",name:"陈梦燕",biz:"代充值",spend:9500000,fresh:5},
-  {month:"2026-06",level:"person",name:"胡金正",biz:"代充值",spend:3500000,fresh:5},
-  {month:"2026-06",level:"person",name:"于泽",biz:"代充值",spend:3000000,fresh:5}
-];
+const defaultTargetRows = [{"month":"2026-01","level":"business","name":"本地推","biz":"","spend":15300000.0,"fresh":28.0},{"month":"2026-02","level":"business","name":"本地推","biz":"","spend":10700000.0,"fresh":18.0},{"month":"2026-03","level":"business","name":"本地推","biz":"","spend":2200000.0,"fresh":32.0},{"month":"2026-04","level":"business","name":"本地推","biz":"","spend":34400000.0,"fresh":36.0},{"month":"2026-05","level":"business","name":"本地推","biz":"","spend":39000000.0,"fresh":16.0},{"month":"2026-06","level":"business","name":"本地推","biz":"","spend":45400000.0,"fresh":31.0},{"month":"2026-07","level":"business","name":"本地推","biz":"","spend":55000000.0,"fresh":44.0},{"month":"2026-01","level":"business","name":"代充值","biz":"","spend":13000000.0,"fresh":14.0},{"month":"2026-02","level":"business","name":"代充值","biz":"","spend":10050000.0,"fresh":18.0},{"month":"2026-03","level":"business","name":"代充值","biz":"","spend":2000000.0,"fresh":32.0},{"month":"2026-04","level":"business","name":"代充值","biz":"","spend":32000000.0,"fresh":36.0},{"month":"2026-05","level":"business","name":"代充值","biz":"","spend":37000000.0,"fresh":16.0},{"month":"2026-06","level":"business","name":"代充值","biz":"","spend":43000000.0,"fresh":31.0},{"month":"2026-07","level":"business","name":"代充值","biz":"","spend":3090000.0,"fresh":44.0},{"month":"2026-01","level":"business","name":"代运营","biz":"","spend":2300000.0,"fresh":14.0},{"month":"2026-02","level":"business","name":"代运营","biz":"","spend":650000.0,"fresh":0},{"month":"2026-03","level":"business","name":"代运营","biz":"","spend":200000.0,"fresh":0},{"month":"2026-04","level":"business","name":"代运营","biz":"","spend":2400000.0,"fresh":0},{"month":"2026-05","level":"business","name":"代运营","biz":"","spend":2000000.0,"fresh":0},{"month":"2026-01","level":"team","name":"销售一组","biz":"代充值","spend":0,"fresh":0},{"month":"2026-02","level":"team","name":"销售一组","biz":"代充值","spend":0,"fresh":10.0},{"month":"2026-03","level":"team","name":"销售一组","biz":"代充值","spend":12000000.0,"fresh":16.0},{"month":"2026-04","level":"team","name":"销售一组","biz":"代充值","spend":16000000.0,"fresh":16.0},{"month":"2026-05","level":"team","name":"销售一组","biz":"代充值","spend":16000000.0,"fresh":8.0},{"month":"2026-06","level":"business","name":"代运营","biz":"","spend":2400000.0,"fresh":0},{"month":"2026-06","level":"team","name":"销售一组","biz":"本地推","spend":20000000.0,"fresh":14.0},{"month":"2026-07","level":"team","name":"销售一组","biz":"本地推","spend":25000000.0,"fresh":24.0},{"month":"2026-01","level":"team","name":"销售二组","biz":"代充值","spend":0,"fresh":0},{"month":"2026-02","level":"team","name":"销售二组","biz":"代充值","spend":0,"fresh":8.0},{"month":"2026-03","level":"team","name":"销售二组","biz":"代充值","spend":8000000.0,"fresh":16.0},{"month":"2026-04","level":"team","name":"销售二组","biz":"代充值","spend":16000000.0,"fresh":20.0},{"month":"2026-05","level":"team","name":"销售二组","biz":"代充值","spend":21000000.0,"fresh":8.0},{"month":"2026-06","level":"team","name":"销售二组","biz":"代充值","spend":25000000.0,"fresh":17.0},{"month":"2026-07","level":"team","name":"销售二组","biz":"本地推","spend":30000000.0,"fresh":20.0},{"month":"2026-01","level":"person","name":"程鹏","biz":"代充值","spend":4400000.0,"fresh":2.0},{"month":"2026-02","level":"person","name":"程鹏","biz":"代充值","spend":3000000.0,"fresh":1.0},{"month":"2026-03","level":"person","name":"程鹏","biz":"代充值","spend":4000000.0,"fresh":4.0},{"month":"2026-04","level":"person","name":"程鹏","biz":"代充值","spend":4000000.0,"fresh":4.0},{"month":"2026-05","level":"person","name":"程鹏","biz":"代充值","spend":4000000.0,"fresh":2.0},{"month":"2026-06","level":"person","name":"程鹏","biz":"本地推","spend":3000000.0,"fresh":0},{"month":"2026-07","level":"person","name":"程鹏","biz":"本地推","spend":4000000.0,"fresh":0},{"month":"2026-01","level":"person","name":"陈佳","biz":"代充值","spend":1800000.0,"fresh":4.0},{"month":"2026-02","level":"person","name":"陈佳","biz":"代充值","spend":1000000.0,"fresh":3.0},{"month":"2026-03","level":"person","name":"陈佳","biz":"代充值","spend":4500000.0,"fresh":4.0},{"month":"2026-04","level":"person","name":"陈佳","biz":"代充值","spend":5800000.0,"fresh":4.0},{"month":"2026-05","level":"person","name":"陈佳","biz":"代充值","spend":4000000.0,"fresh":2.0},{"month":"2026-06","level":"person","name":"陈佳","biz":"本地推","spend":5000000.0,"fresh":6.0},{"month":"2026-07","level":"person","name":"陈佳","biz":"本地推","spend":6000000.0,"fresh":6.0},{"month":"2026-01","level":"person","name":"樊俊俊","biz":"代充值","spend":700000.0,"fresh":4.0},{"month":"2026-02","level":"person","name":"樊俊俊","biz":"代充值","spend":500000.0,"fresh":3.0},{"month":"2026-03","level":"person","name":"樊俊俊","biz":"代充值","spend":1200000.0,"fresh":4.0},{"month":"2026-04","level":"person","name":"樊俊俊","biz":"代充值","spend":1200000.0,"fresh":4.0},{"month":"2026-05","level":"person","name":"樊俊俊","biz":"代充值","spend":2000000.0,"fresh":2.0},{"month":"2026-06","level":"person","name":"樊俊俊","biz":"本地推","spend":4000000.0,"fresh":6.0},{"month":"2026-07","level":"person","name":"樊俊俊","biz":"本地推","spend":4000000.0,"fresh":6.0},{"month":"2026-01","level":"person","name":"黄文强","biz":"代充值","spend":1100000.0,"fresh":4.0},{"month":"2026-02","level":"person","name":"黄文强","biz":"代充值","spend":1000000.0,"fresh":3.0},{"month":"2026-03","level":"person","name":"黄文强","biz":"代充值","spend":2300000.0,"fresh":4.0},{"month":"2026-04","level":"person","name":"黄文强","biz":"代充值","spend":5000000.0,"fresh":4.0},{"month":"2026-05","level":"person","name":"黄文强","biz":"代充值","spend":6000000.0,"fresh":2.0},{"month":"2026-06","level":"person","name":"黄文强","biz":"本地推","spend":8000000.0,"fresh":2.0},{"month":"2026-07","level":"person","name":"黄文强","biz":"本地推","spend":10000000.0,"fresh":6.0},{"month":"2026-07","level":"person","name":"贺琼芳","biz":"本地推","spend":1000000.0,"fresh":6.0},{"month":"2026-01","level":"person","name":"吕帅印","biz":"代充值","spend":1300000.0,"fresh":2.0},{"month":"2026-02","level":"person","name":"吕帅印","biz":"代充值","spend":50000.0,"fresh":2.0},{"month":"2026-03","level":"person","name":"吕帅印","biz":"代充值","spend":1200000.0,"fresh":4.0},{"month":"2026-04","level":"person","name":"吕帅印","biz":"代充值","spend":0,"fresh":0},{"month":"2026-05","level":"person","name":"吕帅印","biz":"代充值","spend":1000000.0,"fresh":2.0},{"month":"2026-06","level":"person","name":"吕帅印","biz":"代充值","spend":2000000.0,"fresh":0},{"month":"2026-01","level":"person","name":"尤欢","biz":"代充值","spend":1250000.0,"fresh":6.0},{"month":"2026-02","level":"person","name":"尤欢","biz":"代充值","spend":1300000.0,"fresh":2.0},{"month":"2026-03","level":"person","name":"尤欢","biz":"代充值","spend":2700000.0,"fresh":4.0},{"month":"2026-04","level":"person","name":"尤欢","biz":"代充值","spend":9500000.0,"fresh":5.0},{"month":"2026-05","level":"person","name":"尤欢","biz":"代充值","spend":9500000.0,"fresh":2.0},{"month":"2026-06","level":"person","name":"尤欢","biz":"代充值","spend":7000000.0,"fresh":5.0},{"month":"2026-07","level":"person","name":"尤欢","biz":"代充值","spend":10000000.0,"fresh":4.0},{"month":"2026-01","level":"person","name":"陈梦燕","biz":"代充值","spend":2300000.0,"fresh":4.0},{"month":"2026-02","level":"person","name":"陈梦燕","biz":"代充值","spend":2300000.0,"fresh":2.0},{"month":"2026-03","level":"person","name":"陈梦燕","biz":"代充值","spend":2900000.0,"fresh":4.0},{"month":"2026-04","level":"person","name":"陈梦燕","biz":"代充值","spend":4500000.0,"fresh":5.0},{"month":"2026-05","level":"person","name":"陈梦燕","biz":"代充值","spend":6000000.0,"fresh":2.0},{"month":"2026-06","level":"person","name":"陈梦燕","biz":"代充值","spend":9500000.0,"fresh":2.0},{"month":"2026-07","level":"person","name":"陈梦燕","biz":"代充值","spend":12000000.0,"fresh":4.0},{"month":"2026-01","level":"person","name":"胡金正","biz":"代充值","spend":150000.0,"fresh":2.0},{"month":"2026-02","level":"person","name":"胡金正","biz":"代充值","spend":900000.0,"fresh":2.0},{"month":"2026-03","level":"person","name":"胡金正","biz":"代充值","spend":1200000.0,"fresh":4.0},{"month":"2026-04","level":"person","name":"胡金正","biz":"代充值","spend":1500000.0,"fresh":5.0},{"month":"2026-05","level":"person","name":"胡金正","biz":"代充值","spend":2600000.0,"fresh":2.0},{"month":"2026-06","level":"person","name":"胡金正","biz":"代充值","spend":3500000.0,"fresh":5.0},{"month":"2026-07","level":"person","name":"胡金正","biz":"代充值","spend":4000000.0,"fresh":6.0},{"month":"2026-04","level":"person","name":"于泽","biz":"代充值","spend":500000.0,"fresh":5.0},{"month":"2026-05","level":"person","name":"于泽","biz":"代充值","spend":1900000.0,"fresh":2.0},{"month":"2026-06","level":"person","name":"于泽","biz":"代充值","spend":3000000.0,"fresh":5.0},{"month":"2026-07","level":"person","name":"于泽","biz":"代充值","spend":4000000.0,"fresh":6.0}];
 const salesTeams = {
   "吕帅印": "销售二组",
   "程鹏": "销售一组",
@@ -153,6 +71,7 @@ let lostElapsedDays = 0;
 const pageSize = 50;
 const maxUploadHistoryItems = 8;
 let activePanelKey = "dashboard";
+const panelFilters = {};
 const renderedPanels = new Set();
 const XLSX_CDN = "https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js";
 
@@ -215,29 +134,66 @@ function fillDashboardPeriodOptions() {
   const year = dashboardOptionYear();
   const monthOptions = Array.from({ length: 12 }, (_, i) => {
     const month = String(i + 1).padStart(2, "0");
-    return `<option value="M:${year}-${month}">M${i + 1}</option>`;
+    return `<button class="periodChoice" type="button" data-period-value="M:${year}-${month}">M${i + 1}</button>`;
   }).join("");
-  const quarterOptions = [1, 2, 3, 4].map(q => `<option value="Q:${year}-Q${q}">Q${q}</option>`).join("");
-  el.innerHTML = `<option value="">自定义日期</option><optgroup label="月份">${monthOptions}</optgroup><optgroup label="季度">${quarterOptions}</optgroup>`;
-  fillDashboardPeriodNavs(year);
+  const quarterOptions = [1, 2, 3, 4].map(q => `<button class="periodChoice" type="button" data-period-value="Q:${year}-Q${q}">Q${q}</button>`).join("");
+  $("periodQuickMenu").innerHTML = `
+    <button class="periodChoice custom" type="button" data-period-value="">自定义日期</button>
+    <div class="periodGroupTitle">月份（最多 4 个）</div>
+    <div class="periodChoiceGrid">${monthOptions}</div>
+    <div class="periodGroupTitle">季度（最多 4 个）</div>
+    <div class="periodChoiceGrid">${quarterOptions}</div>`;
 }
-function fillDashboardPeriodNavs(year = dashboardOptionYear()) {
-  const monthButtons = Array.from({ length: 12 }, (_, i) => {
-    const month = String(i + 1).padStart(2, "0");
-    return `<button class="navSubitem" type="button" data-period-value="M:${year}-${month}">M${i + 1}</button>`;
-  }).join("");
-  const quarterButtons = [1, 2, 3, 4]
-    .map(q => `<button class="navSubitem" type="button" data-period-value="Q:${year}-Q${q}">Q${q}</button>`)
-    .join("");
-  document.querySelectorAll(".periodNavList").forEach(list => {
-    list.innerHTML = `<div class="navPeriodTitle">月份</div>${monthButtons}<div class="navPeriodTitle">季度</div>${quarterButtons}`;
-  });
-  syncPeriodNavSelection();
+function periodValuesFrom(filter = {}) {
+  if (Array.isArray(filter.periods)) return filter.periods.filter(Boolean);
+  return filter.period ? [filter.period].filter(Boolean) : [];
 }
-function syncPeriodNavSelection(value = $("periodQuick")?.value || "") {
-  document.querySelectorAll(".navSubitem[data-period-value]").forEach(btn => {
-    btn.classList.toggle("active", btn.dataset.periodValue === value);
+function periodKind(value) {
+  return value ? value.split(":")[0] : "";
+}
+function periodLabel(value) {
+  if (!value) return "自定义日期";
+  const [kind, token] = value.split(":");
+  if (kind === "M") return `M${Number(token.slice(5, 7))}`;
+  if (kind === "Q") return `Q${token.slice(-1)}`;
+  return value;
+}
+function selectedPeriodValues() {
+  return [...document.querySelectorAll("#periodQuickMenu .periodChoice.active")]
+    .map(btn => btn.dataset.periodValue)
+    .filter(Boolean);
+}
+function normalizePeriodValues(values = []) {
+  const unique = [...new Set(values.filter(Boolean))];
+  const kind = periodKind(unique[0] || "");
+  return unique.filter(value => periodKind(value) === kind).slice(0, 4);
+}
+function syncPeriodNavSelection(values = selectedPeriodValues()) {
+  const selected = normalizePeriodValues(Array.isArray(values) ? values : [values].filter(Boolean));
+  const selectedSet = new Set(selected);
+  const activeKind = periodKind(selected[0] || "");
+  const reachedLimit = selected.length >= 4;
+  document.querySelectorAll("#periodQuickMenu .periodChoice").forEach(btn => {
+    const value = btn.dataset.periodValue || "";
+    const kind = periodKind(value);
+    const active = selectedSet.has(value);
+    btn.classList.toggle("active", active);
+    btn.disabled = !!value && !!activeKind && kind !== activeKind || !!value && reachedLimit && !active;
   });
+  if ($("periodQuickButton")) {
+    $("periodQuickButton").textContent = selected.length ? selected.map(periodLabel).join("、") : "自定义日期";
+  }
+}
+function periodRanges(values = []) {
+  return normalizePeriodValues(values).map(periodRange).filter(Boolean);
+}
+function rangeForPeriods(values = []) {
+  const ranges = periodRanges(values);
+  if (!ranges.length) return null;
+  return {
+    start: ranges.map(item => item.start).sort()[0],
+    end: ranges.map(item => item.end).sort().at(-1)
+  };
 }
 function periodRange(value) {
   const maxDate = dataDateMax(allRows);
@@ -267,10 +223,10 @@ function periodRange(value) {
   return null;
 }
 function applyDashboardPeriod(value) {
-  const range = periodRange(value);
+  const values = normalizePeriodValues(Array.isArray(value) ? value : [value].filter(Boolean));
+  const range = rangeForPeriods(values);
   if (!range) return;
-  if ($("periodQuick")) $("periodQuick").value = value;
-  syncPeriodNavSelection(value);
+  syncPeriodNavSelection(values);
   $("startDate").value = range.start;
   $("endDate").value = range.end;
   applyFilters();
@@ -279,12 +235,71 @@ function setDashboardMonthRange(maxDate = dataDateMax(allRows)) {
   if ($("startDate")) $("startDate").value = maxDate.slice(0, 7) + "-01";
   if ($("endDate")) $("endDate").value = maxDate;
   fillDashboardPeriodOptions();
-  if ($("periodQuick")) $("periodQuick").value = `M:${monthOf(maxDate)}`;
-  syncPeriodNavSelection(`M:${monthOf(maxDate)}`);
+  syncPeriodNavSelection([`M:${monthOf(maxDate)}`]);
+}
+function defaultPanelFilter(panel = activePanelKey, list = rows) {
+  const source = panel === "dashboard" || panel === "annualOverview" ? allRows : list;
+  const maxDate = dataDateMax(source);
+  if (panel === "daily") return { start: maxDate, end: maxDate, period: "", periods: [], biz: "", type: "", group: "salesTeam" };
+  const month = monthOf(maxDate);
+  return { start: `${month}-01`, end: maxDate, period: `M:${month}`, periods: [`M:${month}`], biz: "", type: "", group: "salesTeam" };
+}
+function ensurePanelFilter(panel = activePanelKey) {
+  if (!panelFilters[panel]) panelFilters[panel] = defaultPanelFilter(panel);
+  return panelFilters[panel];
+}
+function readFilterControls() {
+  const dailyDate = $("startDate")?.value || $("endDate")?.value || "";
+  if (activePanelKey === "daily") {
+    return { start: dailyDate, end: dailyDate, period: "", periods: [], biz: "", type: "", group: $("groupModeFilter")?.value || "salesTeam" };
+  }
+  return {
+    start: $("startDate")?.value || "",
+    end: $("endDate")?.value || "",
+    period: selectedPeriodValues()[0] || "",
+    periods: selectedPeriodValues(),
+    biz: $("bizFilter")?.value || "",
+    type: $("typeFilter")?.value || "",
+    group: $("groupModeFilter")?.value || "salesTeam"
+  };
+}
+function writeFilterControls(filter = ensurePanelFilter(activePanelKey)) {
+  if ($("startDate")) $("startDate").value = filter.start || "";
+  if ($("endDate")) $("endDate").value = filter.end || "";
+  if ($("bizFilter")) $("bizFilter").value = filter.biz || "";
+  if ($("typeFilter")) $("typeFilter").value = filter.type || "";
+  if ($("groupModeFilter")) $("groupModeFilter").value = filter.group || "salesTeam";
+  syncPeriodNavSelection(periodValuesFrom(filter));
+}
+function saveActiveFilter() {
+  panelFilters[activePanelKey] = readFilterControls();
+}
+function resetActiveFilter() {
+  panelFilters[activePanelKey] = defaultPanelFilter(activePanelKey);
+  writeFilterControls(panelFilters[activePanelKey]);
+}
+function setFilterPeriodBlank() {
+  syncPeriodNavSelection([]);
+  panelFilters[activePanelKey] = readFilterControls();
+}
+function updateFilterChrome(panel = activePanelKey) {
+  document.body.classList.toggle("group-mode-active", panel === "annualOverview" || panel === "customers");
+  document.body.classList.toggle("daily-filter-active", panel === "daily");
+  if ($("startDateLabelText")) $("startDateLabelText").textContent = panel === "daily" ? "日期" : "开始日期";
+}
+function handleStartDateChange() {
+  if (activePanelKey === "daily") {
+    if ($("endDate")) $("endDate").value = $("startDate")?.value || "";
+    syncPeriodNavSelection([]);
+    panelFilters[activePanelKey] = readFilterControls();
+    return;
+  }
+  setFilterPeriodBlank();
 }
 function selectedDashboardMonth(fallbackDate = dataDateMax(allRows)) {
-  const value = $("periodQuick")?.value || "";
+  const value = selectedPeriodValues()[0] || "";
   if (value.startsWith("M:")) return value.slice(2);
+  if (value.startsWith("Q:")) return periodRange(value)?.start?.slice(0, 7) || monthOf(fallbackDate);
   const start = $("startDate")?.value || "";
   const end = $("endDate")?.value || "";
   if (start && end && monthOf(start) === monthOf(end)) return monthOf(end);
@@ -977,6 +992,91 @@ function annualSelfShareBaseRows() {
 function annualMonths(list) {
   return dataMonths(list).sort();
 }
+function quarterOfMonth(month) {
+  if (!month) return "未填写";
+  const q = Math.ceil(Number(month.slice(5, 7)) / 3);
+  return `${month.slice(0, 4)}-Q${q}`;
+}
+function groupModeLabel(mode) {
+  return {
+    salesTeam: "按商务组分组",
+    sales: "按商务分组",
+    month: "按月份分组",
+    quarter: "按季度分组"
+  }[mode] || "按商务组分组";
+}
+function groupKeyForRow(row, mode) {
+  if (mode === "salesTeam") return salesTeam(row);
+  if (mode === "sales") return row[cols["商务"]] || "未填写";
+  if (mode === "month") return row[cols.monthKey] || monthOf(row[cols.date] || "");
+  if (mode === "quarter") return quarterOfMonth(row[cols.monthKey] || monthOf(row[cols.date] || ""));
+  return salesTeam(row);
+}
+function groupSortValue(label, mode) {
+  if (mode === "month") return label;
+  if (mode === "quarter") return label.replace("-Q", "-");
+  return "";
+}
+function groupedPerformanceRows(source, mode) {
+  const buckets = new Map();
+  for (const row of source) {
+    const label = groupKeyForRow(row, mode) || "未填写";
+    if (!buckets.has(label)) {
+      buckets.set(label, { label, spend: 0, direct: 0, channel: 0, projects: new Set(), subjects: new Set() });
+    }
+    const bucket = buckets.get(label);
+    const value = Number(row[cols["非赠款消耗"]] || 0);
+    bucket.spend += value;
+    if (isDirectRow(row)) bucket.direct += value;
+    if (isChannelRow(row)) bucket.channel += value;
+    if (row[cols["项目"]] || row[cols["商机名称"]]) bucket.projects.add(row[cols["项目"]] || row[cols["商机名称"]]);
+    if (row[cols["广告主主体"]]) bucket.subjects.add(row[cols["广告主主体"]]);
+  }
+  return [...buckets.values()]
+    .map(item => ({ ...item, projectCount: item.projects.size, subjectCount: item.subjects.size }))
+    .filter(item => item.spend > 0 || item.projectCount > 0 || item.subjectCount > 0)
+    .sort((a, b) => {
+      if (mode === "month" || mode === "quarter") return groupSortValue(a.label, mode).localeCompare(groupSortValue(b.label, mode));
+      return b.spend - a.spend;
+    });
+}
+function renderGroupedPerformance(prefix, source, mode) {
+  const rows = groupedPerformanceRows(source, mode);
+  const label = groupModeLabel(mode);
+  const total = rows.reduce((acc, row) => acc + row.spend, 0);
+  const tableId = `${prefix}GroupTable`;
+  const chartId = `${prefix}GroupChart`;
+  const titleId = `${prefix}GroupTitle`;
+  const chartTitleId = `${prefix}GroupChartTitle`;
+  if ($(titleId)) $(titleId).textContent = `${label}汇总`;
+  if ($(chartTitleId)) $(chartTitleId).textContent = `${label}消耗`;
+  if ($(tableId)) {
+    const body = rows.map(row => `<tr>
+      <td>${esc(row.label)}</td>
+      <td class="num">${fmtWan(row.spend)}w</td>
+      <td>${fmtPct(row.spend, total)}</td>
+      <td class="num">${fmtMoney(row.projectCount)}</td>
+      <td class="num">${fmtMoney(row.subjectCount)}</td>
+      <td>${fmtPct(row.direct, row.spend)}</td>
+      <td>${fmtPct(row.channel, row.spend)}</td>
+    </tr>`).join("");
+    $(tableId).innerHTML = `<thead><tr><th>分组</th><th class="num">非赠款消耗</th><th>消耗占比</th><th class="num">项目数</th><th class="num">主体数</th><th>直签占比</th><th>渠道占比</th></tr></thead><tbody>${body || `<tr><td colspan="7" class="empty">暂无数据</td></tr>`}</tbody>`;
+  }
+  const chartRows = mode === "sales" ? rows.slice(0, 20) : rows;
+  chart(chartId, "bar", chartRows.map(x => x.label), [
+    { label: "非赠款消耗", data: chartRows.map(x => x.spend), backgroundColor: palette.blue },
+    { label: "项目数", data: chartRows.map(x => x.projectCount), backgroundColor: palette.green, yAxisID: "y1" }
+  ], {
+    scales: {
+      x: { grid: { color: palette.grid }, ticks: { color: palette.tick } },
+      y: { beginAtZero: true, grid: { color: palette.grid }, ticks: { color: palette.tick, callback: v => `${fmtWan(v)}w` } },
+      y1: { beginAtZero: true, position: "right", grid: { display: false }, ticks: { color: palette.tick, precision: 0, callback: v => fmtMoney(v) } }
+    },
+    plugins: {
+      tooltip: { callbacks: { label(ctx) { return ctx.dataset.yAxisID === "y1" ? `项目数 ${fmtMoney(ctx.parsed.y)}` : `非赠款消耗 ${fmtWan(ctx.parsed.y)}w`; } } }
+    }
+  });
+}
 function monthLabel(month) {
   return month.replace("-", ".");
 }
@@ -1021,6 +1121,78 @@ function selfShareStats(list, months, portName = "") {
 }
 function countProjectsByMonth(list, month, filterFn = () => true) {
   return uniqueCount(list.filter(r => r[cols.monthKey] === month && filterFn(r)), r => r[cols["项目"]] || r[cols["商机名称"]]);
+}
+function spendSegmentValues(list) {
+  const recharge = sum(list.filter(r => r[cols["合作模式-DOSS"]] === "代充值"));
+  const operate = sum(list.filter(r => r[cols["合作模式-DOSS"]] === "代运营"));
+  const total = sum(list);
+  return { total, recharge, operate, other: Math.max(0, total - recharge - operate) };
+}
+function annualGroupedDimension(source, mode) {
+  const rows = groupedPerformanceRows(source, mode);
+  if (mode === "sales") return rows.slice(0, 20);
+  return rows;
+}
+function renderAnnualSpendCharts(source, months, mode) {
+  const timeMode = mode === "month" || mode === "quarter";
+  const dimensionLabel = mode === "quarter" ? "季度" : mode === "month" ? "月度" : mode === "salesTeam" ? "商务组" : "商务";
+  if ($("annualSpendChartTitle")) $("annualSpendChartTitle").textContent = timeMode ? `${dimensionLabel}非赠款消耗` : `各${dimensionLabel}非赠款消耗横向对比`;
+  if ($("annualShareChartTitle")) $("annualShareChartTitle").textContent = timeMode ? `每${dimensionLabel}业务消耗占比` : `各${dimensionLabel}业务消耗占比`;
+  if (timeMode) {
+    const keys = mode === "quarter" ? [...new Set(months.map(quarterOfMonth))].sort() : months;
+    const labels = keys.map(mode === "quarter" ? label => label.replace("-Q", ".Q") : monthLabel);
+    const rowsForKey = key => source.filter(r => (mode === "quarter" ? quarterOfMonth(r[cols.monthKey]) : r[cols.monthKey]) === key);
+    const totals = keys.map(key => sum(rowsForKey(key)));
+    const recharge = keys.map(key => spendSegmentValues(rowsForKey(key)).recharge);
+    const operate = keys.map(key => spendSegmentValues(rowsForKey(key)).operate);
+    const mom = totals.map((value, index) => index === 0 || !totals[index - 1] ? null : (value - totals[index - 1]) / totals[index - 1] * 100);
+    chart("annualMonthSpendChart", "bar", labels, [
+      { label: "本地推总消耗", data: totals, backgroundColor: "rgba(47,105,246,.78)", borderColor: palette.blue, borderWidth: 1, yAxisID: "y" },
+      { type: "line", label: "代充值（本地推内）", data: recharge, borderColor: palette.green, backgroundColor: "rgba(22,163,74,.12)", borderWidth: 3, pointRadius: 4, pointHoverRadius: 6, tension: .25, yAxisID: "y" },
+      { type: "line", label: "代运营（本地推内）", data: operate, borderColor: palette.amber, backgroundColor: "rgba(245,158,11,.12)", borderWidth: 3, pointRadius: 4, pointHoverRadius: 6, tension: .25, yAxisID: "y" },
+      { type: "line", label: "环比增长率", data: mom, borderColor: palette.red, backgroundColor: "rgba(239,45,53,.12)", borderWidth: 3, pointRadius: 4, pointHoverRadius: 6, tension: .25, yAxisID: "y1", spanGaps: false }
+    ], {
+      scales: {
+        x: { stacked: false, grid: { color: palette.grid }, ticks: { color: palette.tick } },
+        y: { stacked: false, grid: { color: palette.grid }, ticks: { color: palette.tick, callback: v => `${fmtWan(v)}w` } },
+        y1: { position: "right", grid: { drawOnChartArea: false }, ticks: { color: palette.red, callback: v => `${v}%` } }
+      },
+      plugins: {
+        legend: { display: true },
+        tooltip: { callbacks: { label(ctx) { return ctx.dataset.yAxisID === "y1" ? `${ctx.dataset.label}: ${ctx.parsed.y == null ? "-" : pctFmt.format(ctx.parsed.y)}%` : `${ctx.dataset.label}: ${fmtWan(ctx.parsed.y)}w`; } } }
+      }
+    });
+    shareChart("annualBizShareChart", keys, [
+      { label: "代充值", values: recharge },
+      { label: "代运营", values: operate }
+    ], [palette.green, palette.amber]);
+    return;
+  }
+  const groupRows = annualGroupedDimension(source, mode);
+  const labels = groupRows.map(row => row.label);
+  const rowsForLabel = label => source.filter(r => groupKeyForRow(r, mode) === label);
+  const segments = labels.map(label => spendSegmentValues(rowsForLabel(label)));
+  chart("annualMonthSpendChart", "bar", labels, [
+    { label: "代充值", data: segments.map(x => x.recharge), backgroundColor: palette.green },
+    { label: "代运营", data: segments.map(x => x.operate), backgroundColor: palette.amber },
+    { label: "其它本地推", data: segments.map(x => x.other), backgroundColor: palette.blue }
+  ], {
+    indexAxis: "y",
+    scales: {
+      x: { stacked: true, beginAtZero: true, grid: { color: palette.grid }, ticks: { color: palette.tick, callback: v => `${fmtWan(v)}w` } },
+      y: { stacked: true, grid: { color: palette.grid }, ticks: { color: palette.tick, autoSkip: false } }
+    },
+    plugins: {
+      legend: { display: true },
+      tooltip: { callbacks: { label(ctx) { return `${ctx.dataset.label}: ${fmtWan(ctx.parsed.x)}w`; } } }
+    }
+  });
+  const valuesFor = key => labels.map(label => spendSegmentValues(rowsForLabel(label))[key]);
+  shareChart("annualBizShareChart", labels, [
+    { label: "代充值", values: valuesFor("recharge") },
+    { label: "代运营", values: valuesFor("operate") },
+    { label: "其它本地推", values: valuesFor("other") }
+  ], [palette.green, palette.amber, palette.blue]);
 }
 function shareDatasets(labels, series, colors) {
   const totals = labels.map((_, index) => series.reduce((acc, item) => acc + Number(item.values[index] || 0), 0));
@@ -1273,7 +1445,7 @@ function renderAnnualIndustryTopList(source, months) {
 }
 function renderAnnualOverview() {
   if (!isAdmin() || !$("annualOverview")) return;
-  const source = annualSourceRows();
+  const source = filteredFor(annualSourceRows(), "annualOverview");
   const months = annualMonths(source);
   const labels = months.map(monthLabel);
   const total = sum(source);
@@ -1288,75 +1460,10 @@ function renderAnnualOverview() {
     metric("直签消耗占比", `${fmtPct(sum(direct), total)}`, `直签 ${fmtWan(sum(direct))}w｜渠道 ${fmtWan(sum(channel))}w`, "biz-operate"),
     metric("年度项目数", `${fmtMoney(uniqueCount(source, r => r[cols["项目"]] || r[cols["商机名称"]]))}`, `主体 ${fmtMoney(uniqueCount(source, r => r[cols["广告主主体"]]))} 个`, "biz-new")
   ].join("");
+  renderGroupedPerformance("annual", source, ensurePanelFilter("annualOverview").group || "salesTeam");
 
-  const monthlyTotals = months.map(month => sumByMonth(source, month));
-  const monthlyRecharge = months.map(month => sumByMonth(source, month, r => bizRows([r], "代充值").length > 0));
-  const monthlyOperate = months.map(month => sumByMonth(source, month, r => bizRows([r], "代运营").length > 0));
-  const monthlyMom = monthlyTotals.map((value, index) => {
-    if (index === 0 || !monthlyTotals[index - 1]) return null;
-    return (value - monthlyTotals[index - 1]) / monthlyTotals[index - 1] * 100;
-  });
-  chart("annualMonthSpendChart", "bar", labels, [
-    {
-      label: "本地推总消耗",
-      data: monthlyTotals,
-      backgroundColor: "rgba(47,105,246,.78)",
-      borderColor: palette.blue,
-      borderWidth: 1,
-      yAxisID: "y"
-    },
-    {
-      type: "line",
-      label: "代充值（本地推内）",
-      data: monthlyRecharge,
-      borderColor: palette.green,
-      backgroundColor: "rgba(22,163,74,.12)",
-      borderWidth: 3,
-      pointRadius: 4,
-      pointHoverRadius: 6,
-      tension: .25,
-      yAxisID: "y"
-    },
-    {
-      type: "line",
-      label: "代运营（本地推内）",
-      data: monthlyOperate,
-      borderColor: palette.amber,
-      backgroundColor: "rgba(245,158,11,.12)",
-      borderWidth: 3,
-      pointRadius: 4,
-      pointHoverRadius: 6,
-      tension: .25,
-      yAxisID: "y"
-    },
-    {
-      type: "line",
-      label: "环比增长率",
-      data: monthlyMom,
-      borderColor: palette.red,
-      backgroundColor: "rgba(239,45,53,.12)",
-      borderWidth: 3,
-      pointRadius: 4,
-      pointHoverRadius: 6,
-      tension: .25,
-      yAxisID: "y1",
-      spanGaps: false
-    }
-  ], {
-    scales: {
-      x: { stacked: false, grid: { color: palette.grid }, ticks: { color: palette.tick } },
-      y: { stacked: false, grid: { color: palette.grid }, ticks: { color: palette.tick, callback: v => `${fmtWan(v)}w` } },
-      y1: { position: "right", grid: { drawOnChartArea: false }, ticks: { color: palette.red, callback: v => `${v}%` } }
-    },
-    plugins: {
-      legend: { display: true },
-      tooltip: { callbacks: { label(ctx) { return ctx.dataset.yAxisID === "y1" ? `${ctx.dataset.label}: ${ctx.parsed.y == null ? "-" : pctFmt.format(ctx.parsed.y)}%` : `${ctx.dataset.label}: ${fmtWan(ctx.parsed.y)}w`; } } }
-    }
-  });
-  shareChart("annualBizShareChart", months, [
-    { label: "代充值", values: monthlyRecharge },
-    { label: "代运营", values: monthlyOperate }
-  ], [palette.green, palette.amber]);
+  const annualGroupMode = ensurePanelFilter("annualOverview").group || "salesTeam";
+  renderAnnualSpendCharts(source, months, annualGroupMode);
 
   const teamNames = ["销售一组", "销售二组", "未分组"];
   shareChart("annualTeamShareChart", months, teamNames.map(team => ({
@@ -1505,17 +1612,29 @@ function renderAnnualOverview() {
   renderAnnualIndustryTopList(source, months);
 }
 
-function updateFilteredRows() {
-  const s = $("startDate").value || dataDateMin(rows);
-  const e = $("endDate").value || dataDateMax(rows);
-  const biz = $("bizFilter").value;
-  const type = $("typeFilter").value;
-  filtered = rows.filter(row => row[cols.date] >= s && row[cols.date] <= e && (!biz || row[cols["合作模式-DOSS"]] === biz) && (!type || row[cols["客户类型"]] === type));
+function panelFilteredRows(list, panel = activePanelKey) {
+  const filter = ensurePanelFilter(panel);
+  const s = filter.start || dataDateMin(list);
+  const e = filter.end || dataDateMax(list);
+  const biz = filter.biz || "";
+  const type = filter.type || "";
+  const ranges = periodRanges(periodValuesFrom(filter));
+  return list.filter(row => {
+    const inDateRange = ranges.length
+      ? ranges.some(range => row[cols.date] >= range.start && row[cols.date] <= range.end)
+      : row[cols.date] >= s && row[cols.date] <= e;
+    return inDateRange && (!biz || row[cols["合作模式-DOSS"]] === biz) && (!type || row[cols["客户类型"]] === type);
+  });
+}
+function updateFilteredRows(panel = activePanelKey) {
+  filtered = panelFilteredRows(rows, panel);
   page = 1;
 }
 function applyFilters() {
-  updateFilteredRows();
-  renderAll();
+  saveActiveFilter();
+  updateFilteredRows(activePanelKey);
+  renderedPanels.delete(activePanelKey);
+  renderPanel(activePanelKey, true);
 }
 function invalidatePanels() {
   renderedPanels.clear();
@@ -1523,6 +1642,7 @@ function invalidatePanels() {
 function renderPanel(panel = activePanelKey, force = false) {
   const key = panel || "dashboard";
   if (!force && renderedPanels.has(key)) return;
+  filtered = panelFilteredRows(rows, key);
   if (key === "annualOverview") renderAnnualOverview();
   else if (key === "dashboard" || key === "myDashboard") renderDashboard();
   else if (key === "publicity") renderPublicity();
@@ -1534,12 +1654,8 @@ function renderPanel(panel = activePanelKey, force = false) {
   else if (key === "dataManage") renderUploadHistory();
   renderedPanels.add(key);
 }
-function filteredFor(list) {
-  const s = $("startDate").value || dataDateMin(list);
-  const e = $("endDate").value || dataDateMax(list);
-  const biz = $("bizFilter").value;
-  const type = $("typeFilter").value;
-  return list.filter(row => row[cols.date] >= s && row[cols.date] <= e && (!biz || row[cols["合作模式-DOSS"]] === biz) && (!type || row[cols["客户类型"]] === type));
+function filteredFor(list, panel = activePanelKey) {
+  return panelFilteredRows(list, panel);
 }
 function dashboardSourceRows() {
   return document.body.classList.contains("my-dashboard-active") ? rows : allRows;
@@ -2081,9 +2197,8 @@ function targetChartLabel(row) {
 }
 
 function renderReports() {
-  const end = $("endDate").value || dataDateMax(rows);
-  const reportSource = localPushRows(rows.filter(r => r[cols.date] <= end));
-  const y = latestDateInRows(reportSource, end);
+  const filter = ensurePanelFilter("daily");
+  const y = filter.start || filter.end || dataDateMax(rows);
   $("dailyTitle").textContent = `${y} 数据通报`;
   $("dailySubtitle").textContent = `所有消耗口径为本地推非赠款，目标进度按当月累计计算`;
   const yRows = localPushRows(rows.filter(r => r[cols.date] === y));
@@ -2327,7 +2442,7 @@ function loadTargetEditorValues() {
   const name = $("targetName").value;
   const biz = level === "business" ? name : $("targetBiz").value;
   const row = targetFor($("targetMonth").value, level, name, biz);
-  $("targetSpend").value = row.spend ? Math.round(row.spend / 10000) : "";
+  $("targetSpend").value = row.spend ? Math.round(row.spend) : "";
   $("targetNew").value = row.fresh || "";
 }
 
@@ -2339,7 +2454,7 @@ function saveTarget() {
     level,
     name,
     biz: level === "business" ? "" : $("targetBiz").value,
-    spend: Number($("targetSpend").value || 0) * 10000,
+    spend: Number($("targetSpend").value || 0),
     fresh: Number($("targetNew").value || 0)
   };
   const targets = getTargets();
@@ -2373,7 +2488,7 @@ function saveInlineTargetRows(indexes = null) {
     const freshInput = tr.querySelector('[data-target-field="fresh"]');
     const row = normalizeTargetRow({
       ...base,
-      spend: Number(spendInput?.value || 0) * 10000,
+      spend: Number(spendInput?.value || 0),
       fresh: Number(freshInput?.value || 0)
     });
     targets[targetId(row)] = row;
@@ -2396,11 +2511,11 @@ function saveInlineTargetRow(index) {
 function renderTargets() {
   if (!$("targetTable")) return;
   const month = $("targetMonth").value || monthOf($("endDate").value || dataDateMax(rows));
-  const levelName = { business: "业务", team: "销售组", person: "商务个人" };
+  const levelName = { business: "业务", team: "商务组", person: "商务" };
   const groups = [
-    ["business", "业务目标"],
-    ["team", "销售组目标"],
-    ["person", "商务个人目标"]
+    ["business", "业务"],
+    ["team", "商务组"],
+    ["person", "商务"]
   ];
   const sourceRows = targetRowsForManager(month).sort((a, b) => targetSortValue(a).localeCompare(targetSortValue(b), "zh-CN"));
   targetRenderRows = sourceRows;
@@ -2411,7 +2526,7 @@ function renderTargets() {
     if (!groupRows.length) return "";
     const groupSpend = groupRows.reduce((acc, item) => acc + Number(item.row.spend || 0), 0);
     const groupFresh = groupRows.reduce((acc, item) => acc + Number(item.row.fresh || 0), 0);
-    const heading = `<tr class="targetSectionRow"><td colspan="10">${esc(title)}<span>${fmtMoney(groupRows.length)} 条｜目标消耗 ${fmtWan(groupSpend)}w｜新开 ${fmtMoney(groupFresh)}</span></td></tr>`;
+    const heading = `<tr class="targetSectionRow"><td colspan="10">${esc(title)}<span>${fmtMoney(groupRows.length)} 条｜spend ${fmtMoney(groupSpend)}｜fresh ${fmtMoney(groupFresh)}</span></td></tr>`;
     return heading + groupRows.map(({ row, index }) => {
       const biz = targetBusiness(row);
       const actualSpend = sum(actualRowsForTarget(row.month, row.level, row.name, rows, biz));
@@ -2420,22 +2535,23 @@ function renderTargets() {
         <td>${esc(row.month)}</td>
         <td>${levelName[row.level] || row.level}</td>
         <td>${esc(row.name)}</td>
-        <td>${esc(biz)}</td>
-        <td class="num targetInputCell"><input class="targetInlineInput" data-target-field="spend" type="number" min="0" step="1" value="${Math.round((row.spend || 0) / 10000)}" aria-label="${esc(row.name)}消耗目标" /><span>w</span></td>
+        <td>${esc(biz || row.name)}</td>
+        <td class="num targetInputCell"><input class="targetInlineInput rawSpend" data-target-field="spend" type="number" min="0" step="1" value="${Math.round(row.spend || 0)}" aria-label="${esc(row.name)} spend" /></td>
+        <td class="num"><input class="targetInlineInput small" data-target-field="fresh" type="number" min="0" step="1" value="${row.fresh || 0}" aria-label="${esc(row.name)} fresh" /></td>
         <td class="num">${fmtWan(actualSpend)}w</td>
         <td>${fmtPct(actualSpend, row.spend)}</td>
-        <td class="num"><input class="targetInlineInput small" data-target-field="fresh" type="number" min="0" step="1" value="${row.fresh || 0}" aria-label="${esc(row.name)}新开目标" /></td>
         <td class="num">${fmtMoney(actualNew)}</td>
         <td>${fmtPct(actualNew, row.fresh)}</td>
       </tr>`;
     }).join("");
   }).join("");
-  $("targetTable").innerHTML = `<thead><tr><th>月份</th><th>层级</th><th>对象</th><th>目标业务</th><th class="num">消耗目标（万）</th><th class="num">实际消耗</th><th>消耗完成</th><th class="num">新开目标</th><th class="num">实际新开</th><th>新开完成</th></tr></thead><tbody>${body || `<tr><td colspan="10" class="empty">暂无目标</td></tr>`}</tbody>`;
+  $("targetTable").innerHTML = `<thead><tr><th>monthKey</th><th>level</th><th>name</th><th>biz</th><th class="num">spend</th><th class="num">fresh</th><th class="num">实际消耗</th><th>消耗完成</th><th class="num">实际新开</th><th>新开完成</th></tr></thead><tbody>${body || `<tr><td colspan="10" class="empty">暂无目标</td></tr>`}</tbody>`;
 }
 
-function customerFilterRowsForMonth(month, endLimit = "") {
-  const biz = $("bizFilter").value;
-  const type = $("typeFilter").value;
+function customerFilterRowsForMonth(month, endLimit = "", panel = "customers") {
+  const filter = ensurePanelFilter(panel);
+  const biz = filter.biz || "";
+  const type = filter.type || "";
   return rows.filter(row => isLocalPushRow(row) && row[cols.monthKey] === month && (!endLimit || row[cols.date] <= endLimit) && (!biz || row[cols["合作模式-DOSS"]] === biz) && (!type || row[cols["客户类型"]] === type));
 }
 function monthM(month) {
@@ -2456,10 +2572,10 @@ function deltaText(cur, prev, unit = "") {
   const sign = delta > 0 ? "+" : "";
   return `较上月同期 ${sign}${unit === "w" ? fmtWan(delta) : fmtMoney(delta)}${unit}`;
 }
-function samePeriodRows(month, day) {
+function samePeriodRows(month, day, panel = "customers") {
   const maxDay = new Date(Number(month.slice(0, 4)), Number(month.slice(5, 7)), 0).getDate();
   const endDay = Math.min(day, maxDay);
-  return customerFilterRowsForMonth(month, `${month}-${String(endDay).padStart(2, "0")}`);
+  return customerFilterRowsForMonth(month, `${month}-${String(endDay).padStart(2, "0")}`, panel);
 }
 function firstSpendMonthForProject(project, year) {
   const hit = allRows
@@ -2468,7 +2584,8 @@ function firstSpendMonthForProject(project, year) {
   return hit ? hit[cols["月份"]] : "-";
 }
 function renderCustomers() {
-  const end = $("endDate").value || dataDateMax(rows);
+  const filter = ensurePanelFilter("customers");
+  const end = filter.end || dataDateMax(rows);
   const curMonth = monthOf(end);
   const months = dataMonths(rows);
   const prevMonth = months[months.indexOf(curMonth) - 1] || months[0] || curMonth;
@@ -2487,6 +2604,8 @@ function renderCustomers() {
     metric("直签主体数", uniqueCount(direct, r => r[cols["广告主主体"]]), `${deltaText(uniqueCount(direct, r => r[cols["广告主主体"]]), uniqueCount(prevDirect, r => r[cols["广告主主体"]]))}｜消耗环比 ${deltaText(sum(direct), sum(prevDirect), "w")}`, "biz-operate"),
     metric("渠道主体数", uniqueCount(channel, r => r[cols["广告主主体"]]), `${deltaText(uniqueCount(channel, r => r[cols["广告主主体"]]), uniqueCount(prevChannel, r => r[cols["广告主主体"]]))}｜消耗环比 ${deltaText(sum(channel), sum(prevChannel), "w")}`, "biz-new"),
   ].join("");
+  const groupedRows = filteredFor(localPushRows(rows), "customers");
+  renderGroupedPerformance("customer", groupedRows, filter.group || "salesTeam");
   const directAll = topProjects(direct, prevDirect, year, Number.MAX_SAFE_INTEGER);
   const channelAll = topProjects(channel, prevChannel, year, Number.MAX_SAFE_INTEGER);
   const directTop = directAll.slice(0, 10);
@@ -3202,21 +3321,19 @@ function init() {
   $("dataMeta").textContent = `数据范围 ${minDate} 至 ${maxDate}｜生成于 ${meta.generatedAt}｜当前权限 ${currentUser.scopeLabel}｜可见 ${fmtMoney(rows.length)} 行`;
   setDashboardMonthRange(maxDate);
   for (const biz of [...new Set(allRows.map(r => r[cols["合作模式-DOSS"]]))]) $("bizFilter").insertAdjacentHTML("beforeend", `<option>${esc(biz)}</option>`);
+  panelFilters[activePanelKey] = readFilterControls();
   $("targetMonth").innerHTML = months.map(month => `<option>${esc(month)}</option>`).join("");
   $("targetMonth").value = monthOf(maxDate);
   refreshTargetNameOptions();
   const activatePanel = (panel, options = {}) => {
     const btn = document.querySelector(`.nav[data-panel="${panel}"]`);
     if (!btn) return;
+    saveActiveFilter();
     activePanelKey = panel;
+    writeFilterControls(ensurePanelFilter(panel));
+    updateFilterChrome(panel);
     document.querySelectorAll(".nav").forEach(x => x.classList.remove("active"));
     btn.classList.add("active");
-    if (options.openNav !== false) {
-      document.querySelectorAll(".dashboardNavGroup").forEach(groupEl => {
-        const owner = groupEl.querySelector(".nav[data-panel]")?.dataset.panel;
-        groupEl.classList.toggle("open", owner === panel);
-      });
-    }
     document.body.classList.toggle("my-dashboard-active", panel === "myDashboard");
     document.body.classList.toggle("annual-overview-active", panel === "annualOverview");
     document.body.classList.toggle("targets-active", panel === "targets");
@@ -3229,29 +3346,48 @@ function init() {
     if (btn.classList.contains("userOnly") && isAdmin()) return;
     if (btn.dataset.panel === "dashboard" && currentUser?.role === "person") return;
     const panel = btn.dataset.panel;
-    const groupEl = btn.closest(".dashboardNavGroup");
-    const alreadyActive = btn.classList.contains("active");
-    if (groupEl && alreadyActive) {
-      groupEl.classList.toggle("open");
-      return;
-    }
     activatePanel(panel);
   });
-  document.querySelectorAll(".periodNavList").forEach(list => {
-    list.onclick = e => {
-      const periodBtn = e.target.closest(".navSubitem[data-period-value]");
-      if (!periodBtn) return;
-      const owner = list.dataset.periodOwner || "dashboard";
-      if (owner === "dashboard" && currentUser?.role === "person") return;
-      activatePanel(owner);
-      applyDashboardPeriod(periodBtn.dataset.periodValue);
-    };
-  });
   $("applyFilters").onclick = applyFilters;
-  $("periodQuick").onchange = e => applyDashboardPeriod(e.target.value);
-  $("startDate").onchange = () => { $("periodQuick").value = ""; syncPeriodNavSelection(""); };
-  $("endDate").onchange = () => { $("periodQuick").value = ""; syncPeriodNavSelection(""); };
-  $("resetFilters").onclick = () => { setDashboardMonthRange(dataDateMax(allRows)); $("bizFilter").value = ""; $("typeFilter").value = ""; applyFilters(); };
+  $("periodQuickButton").onclick = event => {
+    event.stopPropagation();
+    $("periodQuick").classList.toggle("open");
+  };
+  $("periodQuickMenu").onclick = event => {
+    const btn = event.target.closest(".periodChoice");
+    if (!btn || btn.disabled) return;
+    event.stopPropagation();
+    const value = btn.dataset.periodValue || "";
+    if (!value) {
+      syncPeriodNavSelection([]);
+      setFilterPeriodBlank();
+      applyFilters();
+      return;
+    }
+    let values = selectedPeriodValues();
+    const kind = periodKind(value);
+    const currentKind = periodKind(values[0] || "");
+    if (currentKind && currentKind !== kind) values = [];
+    if (values.includes(value)) {
+      values = values.filter(item => item !== value);
+    } else if (values.length < 4) {
+      values.push(value);
+    }
+    syncPeriodNavSelection(values);
+    const range = rangeForPeriods(values);
+    if (range) {
+      $("startDate").value = range.start;
+      $("endDate").value = range.end;
+    }
+    applyFilters();
+  };
+  document.addEventListener("click", event => {
+    if (!$("periodQuick")?.contains(event.target)) $("periodQuick")?.classList.remove("open");
+  });
+  $("startDate").onchange = handleStartDateChange;
+  $("endDate").onchange = setFilterPeriodBlank;
+  $("groupModeFilter").onchange = () => { saveActiveFilter(); applyFilters(); };
+  $("resetFilters").onclick = () => { resetActiveFilter(); applyFilters(); };
   $("tableSearch").oninput = () => { page = 1; renderDetails(); };
   $("prevPage").onclick = () => { page--; renderDetails(); };
   $("nextPage").onclick = () => { page++; renderDetails(); };

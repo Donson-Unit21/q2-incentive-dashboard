@@ -18,21 +18,11 @@
         <em id="loginError"></em>
       </form>
     </section>
-    <aside class="sidebar">
+      <aside class="sidebar">
       <h1>业绩看板</h1>
       <button class="nav adminOnly" data-panel="annualOverview">全年总览</button>
-      <div class="navGroup dashboardNavGroup">
-        <button class="nav navToggle active" data-panel="dashboard" type="button">
-          <span>仪表盘</span><span class="navChevron">⌄</span>
-        </button>
-        <div class="navSubmenu periodNavList" data-period-owner="dashboard"></div>
-      </div>
-      <div class="navGroup userOnly dashboardNavGroup">
-        <button class="nav navToggle userOnly" data-panel="myDashboard" type="button">
-          <span>我的仪表盘</span><span class="navChevron">⌄</span>
-        </button>
-        <div class="navSubmenu periodNavList" data-period-owner="myDashboard"></div>
-      </div>
+      <button class="nav active" data-panel="dashboard" type="button">仪表盘</button>
+      <button class="nav userOnly" data-panel="myDashboard" type="button">我的仪表盘</button>
       <button class="nav" data-panel="publicity">数据公示</button>
       <button class="nav restrictedOnly" data-panel="daily">日报</button>
       <button class="nav" data-panel="details">消耗明细</button>
@@ -53,11 +43,17 @@
           <button id="logoutBtn" type="button">退出</button>
         </div>
         <section class="filters">
-          <label>开始日期<input id="startDate" type="date" /></label>
-          <label>结束日期<input id="endDate" type="date" /></label>
-          <label>仪表盘周期<select id="periodQuick"><option value="">自定义日期</option></select></label>
-          <label>合作模式<select id="bizFilter"><option value="">全部</option></select></label>
-          <label>客户类型<select id="typeFilter"><option value="">全部</option><option>直签</option><option>渠道</option></select></label>
+          <label class="startDateFilterLabel"><span id="startDateLabelText">开始日期</span><input id="startDate" type="date" /></label>
+          <label class="endDateFilterLabel">结束日期<input id="endDate" type="date" /></label>
+          <label class="periodFilterLabel">仪表盘周期
+            <div id="periodQuick" class="periodMulti">
+              <button id="periodQuickButton" class="periodMultiButton" type="button">自定义日期</button>
+              <div id="periodQuickMenu" class="periodMultiMenu"></div>
+            </div>
+          </label>
+          <label class="bizFilterLabel">合作模式<select id="bizFilter"><option value="">全部</option></select></label>
+          <label class="typeFilterLabel">客户类型<select id="typeFilter"><option value="">全部</option><option>直签</option><option>渠道</option></select></label>
+          <label class="groupModeFilter">分组方式<select id="groupModeFilter"><option value="salesTeam">按商务组分组</option><option value="sales">按商务分组</option><option value="month">按月份分组</option><option value="quarter">按季度分组</option></select></label>
           <button id="resetFilters">重置</button>
           <button id="applyFilters">确定</button>
         </section>
@@ -68,11 +64,18 @@
           <h3>全年总览看板</h3>
           <div class="metricGrid" id="annualMetrics"></div>
         </section>
+        <section class="block annualBlock annualGroupBlock">
+          <h3 id="annualGroupTitle">分组汇总</h3>
+          <div class="grid two">
+            <article class="card"><h4 id="annualGroupChartTitle">分组消耗</h4><canvas id="annualGroupChart"></canvas></article>
+            <article class="card"><h4>分组明细</h4><div class="tableWrap compact"><table id="annualGroupTable"></table></div></article>
+          </div>
+        </section>
         <section class="block annualBlock annualSpend">
           <h3>年度累计与月度消耗</h3>
           <div class="grid two">
-            <article class="card"><h4>月度非赠款消耗</h4><canvas id="annualMonthSpendChart"></canvas></article>
-            <article class="card"><h4>每月业务消耗占比</h4><canvas id="annualBizShareChart"></canvas></article>
+            <article class="card"><h4 id="annualSpendChartTitle">月度非赠款消耗</h4><canvas id="annualMonthSpendChart"></canvas></article>
+            <article class="card"><h4 id="annualShareChartTitle">每月业务消耗占比</h4><canvas id="annualBizShareChart"></canvas></article>
           </div>
         </section>
         <section class="block annualBlock annualOrg">
@@ -288,6 +291,13 @@
 
       <section id="customers" class="panel">
         <section class="block"><h3>客户构成总览</h3><div class="metricGrid" id="customerMetrics"></div></section>
+        <section class="block customerGroupBlock">
+          <h3 id="customerGroupTitle">客户构成分组汇总</h3>
+          <div class="grid two">
+            <article class="card"><h4 id="customerGroupChartTitle">分组消耗</h4><canvas id="customerGroupChart"></canvas></article>
+            <article class="card"><h4>分组明细</h4><div class="tableWrap compact"><table id="customerGroupTable"></table></div></article>
+          </div>
+        </section>
         <section class="block">
           <h3>客户构成分析</h3>
           <div class="grid two">
